@@ -1,3 +1,5 @@
+
+// File: Philosopher.java
 import java.util.Random;
 
 public class Philosopher implements Runnable {
@@ -62,5 +64,10 @@ public class Philosopher implements Runnable {
 
     public String getName() {
         return name;
+    }
+
+    // Add this method to fix the compilation error
+    public Table getCurrentTable() {
+        return currentTable;
     }
 }
