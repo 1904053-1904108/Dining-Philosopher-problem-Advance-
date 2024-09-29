@@ -1,3 +1,5 @@
+
+// File: Table.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,32 @@ public class Table {
     }
 
     public synchronized boolean isDeadlocked() {
-        // This is a simplified deadlock detection.
-        // In a real scenario, you'd need to check if each philosopher
-        // is holding one fork and waiting for the other.
-        return philosophers.size() == 5;
+        if (philosophers.size() != 5) {
+            return false; // Can't be deadlocked if the table isn't full
+        }
+
+        boolean[] forksHeld = new boolean[5];
+
+        // First, check if exactly one fork is held between each pair of philosophers
+        for (int i = 0; i < 5; i++) {
+            if (forks[i].pickup()) {
+                forksHeld[i] = false;
+                forks[i].putDown(); // Put it back down immediately
+            } else {
+                forksHeld[i] = true;
+            }
+        }
+
+        // Now check if it's a circular wait (deadlock)
+        boolean allTrue = true;
+        boolean allFalse = true;
+        for (boolean held : forksHeld) {
+            allTrue &= held;
+            allFalse &= !held;
+        }
+
+        // If all forks are held or all forks are available, it's not a deadlock
+        return !(allTrue || allFalse);
     }
 
     public synchronized boolean isFull() {
