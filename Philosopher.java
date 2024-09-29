@@ -66,7 +66,7 @@ public class Philosopher implements Runnable {
         return name;
     }
 
-    // Add this method to fix the compilation error
+    // fix the compilation error
     public Table getCurrentTable() {
         return currentTable;
     }
